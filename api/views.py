@@ -1,6 +1,5 @@
 import logging
-from django.shortcuts import render
-from django.http import HttpResponseServerError, JsonResponse
+
 from rest_framework.response import Response
 
 import api
@@ -24,15 +23,17 @@ logger = logging.getLogger("api.views")
 # pagination
 
 # number pagination
-class StandardResultSetPagination(PageNumberPagination):
-    # page_size =
-    page_query_param = 'p'
-    max_page_size = 100
+# limitoffetpagination
+# class StandardResultSetPagination(PageNumberPagination):
+#     page_size = 5
+#     page_query_param = 'p'
+#     max_page_size = 100
+
 
 # cursor pagination
-# class MyCursorPagination(CursorPagination):
-#     page_size = 5
-#     ordering = 'title'
+class MyCursorPagination(CursorPagination):
+    page_size = 5
+    ordering = 'title'
 
 class notesViewSet(viewsets.ModelViewSet, GenericAPIView):
     queryset = notes.objects.all()
@@ -41,9 +42,9 @@ class notesViewSet(viewsets.ModelViewSet, GenericAPIView):
     ordering_fields = ['id','title']
 
     # pagination
-    pagination_class = StandardResultSetPagination
+    # pagination_class = StandardResultSetPagination
     # cursor pagination
-    # pagination_class = MyCursorPagination
+    pagination_class = MyCursorPagination
 
     # for filtering
 
